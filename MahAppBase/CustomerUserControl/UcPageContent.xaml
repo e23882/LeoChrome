@@ -1,0 +1,76 @@
+﻿<avalondock:LayoutDocument x:Class="MahAppBase.CustomerUserControl.UcPageContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:avalondock="http://schemas.xceed.com/wpf/xaml/avalondock"
+             xmlns:cv="clr-namespace:MahAppBase.Converter"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" x:Name="layDoc" Title="新增分頁" Closed="UcPageContent_OnClosed">
+    <Grid x:Name="gdMain">
+        <Grid.Resources>
+            <cv:ReverseBooleanConverter x:Key="BoolConverter"/>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="tbUrl" Text="{Binding Url}" Grid.Column="0" controls:TextBoxHelper.Watermark="URL" VerticalAlignment="Center" Margin="0,0,0,0" GotMouseCapture="TbUrl_OnGotMouseCapture" KeyDown="UIElement_OnKeyDown"  >
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <cefSharp:ChromiumWebBrowser x:Name="cwUrl" Grid.Row="1" TitleChanged="CwUrl_OnTitleChanged" Address="http://google.com/"/>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <Grid Visibility="{Binding ButtonDownLoadVisibility}">
+                <ProgressBar Minimum="0" Maximum="{Binding ProgressMax}" Value="{Binding CurrentProgress}" Orientation="Horizontal" Width="150" Height="20"  Margin="0,0,10,0">
+                    <ProgressBar.Resources>
+                        <Style TargetType="{x:Type ProgressBar}">
+                            <Setter Property="Foreground" Value="Green"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="LimeGreen"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Resources>
+                </ProgressBar>
+                        <TextBlock Text="{Binding ProgressPercent}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="微軟正黑體" FontWeight="DemiBold"/>
+                </Grid>
+                <Button 
+                Content="Download" 
+                Style="{DynamicResource AccentedSquareButtonStyle }" 
+                Background="Red" 
+                Visibility="{Binding ButtonDownLoadVisibility}"
+                Command="{Binding ButtonDownLoadClick}"
+                IsEnabled="{Binding IsDownloading, Converter={StaticResource BoolConverter}}"
+                Height="26" 
+                VerticalAlignment="Center"/>
+            <Button 
+                Content="DownloadList" 
+                Style="{DynamicResource AccentedSquareButtonStyle}" 
+                Background="Green" 
+                Visibility="{Binding ButtonDownLoadListVisibility}"
+                Command="{Binding ButtonDownLoadListClick}"
+                Height="26"
+                Margin="10,0,10,0"
+                IsEnabled="{Binding IsDownloading, Converter={StaticResource BoolConverter}}"
+                VerticalAlignment="Center"/>
+            <Button  
+                Style="{DynamicResource MetroCircleButtonStyle}" 
+                Width="30" Height="30" 
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right" 
+                Command="{Binding ButtonSettingOnClick}" 
+                Margin="10,0,10,0">
+                <iconPacks:PackIconModern Width="10" Height="10" Kind="Settings" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</avalondock:LayoutDocument>
