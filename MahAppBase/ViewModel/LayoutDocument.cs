@@ -73,6 +73,20 @@ namespace MahAppBase.ViewModel
                 OnPropertyChanged("ButtonDownLoadListVisibility");
             }
         }
+
+        private Visibility _ShowDownloadTool;
+        public Visibility ShowDownloadTool
+        {
+            get
+            {
+                return _ShowDownloadTool;
+            }
+            set
+            {
+                _ShowDownloadTool = value;
+                OnPropertyChanged();
+            }
+        }  
         public NoParameterCommand ButtonDownLoadClick { get; set; }
         public NoParameterCommand ButtonDownLoadListClick { get; set; }
         public NoParameterCommand ButtonSettingOnClick { get; set; }
@@ -138,6 +152,7 @@ namespace MahAppBase.ViewModel
                 OnPropertyChanged("IsDownloading");
             }
         }
+        
         #endregion
 
         #region Memberfunction

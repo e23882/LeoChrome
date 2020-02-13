@@ -27,7 +27,7 @@
             </TextBox.Resources>
         </TextBox>
         <cefSharp:ChromiumWebBrowser x:Name="cwUrl" Grid.Row="1" TitleChanged="CwUrl_OnTitleChanged" Address="http://google.com/"/>
-        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding ShowDownloadTool}">
                 <Grid Visibility="{Binding ButtonDownLoadVisibility}">
                 <ProgressBar Minimum="0" Maximum="{Binding ProgressMax}" Value="{Binding CurrentProgress}" Orientation="Horizontal" Width="150" Height="20"  Margin="0,0,10,0">
                     <ProgressBar.Resources>
