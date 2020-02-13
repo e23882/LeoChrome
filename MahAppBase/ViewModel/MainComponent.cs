@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using GalaSoft.MvvmLight.Command;
 using MahAppBase.Command;
 using MahAppBase.CustomerUserControl;
 using MahApps.Metro.Controls;
