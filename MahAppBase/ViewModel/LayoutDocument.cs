@@ -22,6 +22,7 @@ namespace MahAppBase.ViewModel
         private string _Url = string.Empty;
         private Visibility _ButtonDownLoadVisibility = Visibility.Collapsed;
         private Visibility _ButtonDownLoadListVisibility = Visibility.Collapsed;
+        public Visibility _ShowDownloadTool;
         private UcDownLoadSetting uc = null;
         private Thread th;
         private bool _IsDownloading = false;
@@ -29,6 +30,8 @@ namespace MahAppBase.ViewModel
         private string _ProgressPercent = "100 %";
         private string _DownloadPath = string.Empty;
         private long _CurrentProgress = 0;
+        private YouTube youTube = null;
+        private YouTubeVideo video = null;
         #endregion
 
         #region Property
@@ -73,8 +76,6 @@ namespace MahAppBase.ViewModel
                 OnPropertyChanged("ButtonDownLoadListVisibility");
             }
         }
-
-        private Visibility _ShowDownloadTool;
         public Visibility ShowDownloadTool
         {
             get
@@ -152,7 +153,6 @@ namespace MahAppBase.ViewModel
                 OnPropertyChanged("IsDownloading");
             }
         }
-        
         #endregion
 
         #region Memberfunction
@@ -162,6 +162,7 @@ namespace MahAppBase.ViewModel
             ButtonDownLoadListClick = new NoParameterCommand(ButtonDownLoadListClickAction);
             ButtonSettingOnClick = new NoParameterCommand(ButtonSettingOnClickAction);
         }
+
         public void ButtonDownLoadClickAction()
         {
             if(IsDownloading)
@@ -170,6 +171,7 @@ namespace MahAppBase.ViewModel
             th = new Thread(DownloadAction);
             th.Start();
         }
+
         public void ButtonDownLoadListClickAction()
         {
             if (IsDownloading)
@@ -179,9 +181,7 @@ namespace MahAppBase.ViewModel
             th = new Thread(DownloadAction);
             th.Start();
         }
-
-        private YouTube youTube = null;
-        private YouTubeVideo video = null;
+        
         public void DownloadAction()
         {
             try
@@ -233,7 +233,6 @@ namespace MahAppBase.ViewModel
         {
             DownloadPath = uc.DownLoadPath;
         }
-
         #endregion
     }
 }

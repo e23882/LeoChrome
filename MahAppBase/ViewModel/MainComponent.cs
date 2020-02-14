@@ -72,6 +72,9 @@ namespace MahAppBase.ViewModel
         /// </summary>
         public NoParameterCommand ButtonChoosePathClick { get; set; }
 
+        /// <summary>
+        /// 開新頁面按鈕點擊命令
+        /// </summary>
         public CommonCommand ButtonNewTabClick { get; set; }
 
         /// <summary>
@@ -334,6 +337,8 @@ namespace MahAppBase.ViewModel
                 OnPropertyChanged();
             }
         }
+        
+       
         #endregion
 
         #region MemberFunction

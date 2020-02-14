@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace MahAppBase.ViewModel
@@ -19,8 +20,11 @@ namespace MahAppBase.ViewModel
         private float _Cpu;
         private float _Memory;
         private int _UpdateFrequence = 10;
-        protected bool _IsGetInfo = false;
+        private bool _IsGetInfo = false;
+        private bool _HideResource = false;
         private Task thUpdatStatus;
+        private Visibility _ResourceVisibility = Visibility.Visible;
+        private string _SoundSource = string.Empty;
         #endregion
 
         #region Property
@@ -38,10 +42,20 @@ namespace MahAppBase.ViewModel
         /// </summary>
         public float Memory
         {
-            get { return _Memory; }
-            set { _Memory = value; OnPropertyChanged("Memory"); }
+            get
+            {
+                return _Memory;
+            }
+            set
+            {
+                _Memory = value;
+                OnPropertyChanged();
+            }
         }
 
+        /// <summary>
+        /// 是否啟用監控程式資源屬性
+        /// </summary>
         public bool IsGetInfo
         {
             get
@@ -51,10 +65,13 @@ namespace MahAppBase.ViewModel
             set
             {
                 _IsGetInfo = value;
-                OnPropertyChanged("IsGetInfo");
+                OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// 更新頻率屬性
+        /// </summary>
         public int UpdateFrequence
         {
             get
@@ -64,18 +81,47 @@ namespace MahAppBase.ViewModel
             set
             {
                 _UpdateFrequence = value;
-                OnPropertyChanged("UpdateFrequence");
+                OnPropertyChanged();
             }
         }
 
-        private string _SoundSource = string.Empty;
-        public string SoundSource
+        /// <summary>
+        /// StatusBar顯示屬性
+        /// </summary>
+        public Visibility ResourceVisibility
         {
             get
             {
-                return "/Cat.wav";
+                return _ResourceVisibility;
             }
-            private set { SoundSource = value; }
+            set
+            {
+                _ResourceVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 是否隱藏StatusBar屬性
+        /// </summary>
+        public bool HideResource
+        {
+            get
+            {
+                return _HideResource;
+            }
+            set
+            {
+                if (_HideResource != value)
+                {
+                    _HideResource = value;
+                    if (_HideResource)
+                        ResourceVisibility = Visibility.Collapsed;
+                    else
+                        ResourceVisibility = Visibility.Visible;
+                    OnPropertyChanged();
+                }
+            }
         }
         #endregion
 
@@ -90,13 +136,15 @@ namespace MahAppBase.ViewModel
             thUpdatStatus.Start();
         }
 
+        /// <summary>
+        /// 取得程式目前使用資源
+        /// </summary>
         public void CatchPcStatus()
         {
             var name = Process.GetCurrentProcess().ProcessName;
             var cpuCounter = new PerformanceCounter("Process", "% Processor Time", name);
             var ramCounter = new PerformanceCounter("Process", "Working Set", name);
             
-
             while (true)
             {
                 if (IsGetInfo)
