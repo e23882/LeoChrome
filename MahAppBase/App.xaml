@@ -2,17 +2,12 @@
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml">
-        </ResourceDictionary>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml">
-        </ResourceDictionary>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml">
-        </ResourceDictionary>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml">
-        </ResourceDictionary>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml">
-          
-        </ResourceDictionary>
+        <!-- MahApps.Metro 資源 -->
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+
+        <!-- MahApps.Metro 2.x 主題 (替代舊的 Colors + Accents) -->
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

@@ -10,14 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using Microsoft.Win32;
 using System.Windows.Navigation;
 using MahAppBase.Command;
 using MahAppBase.CustomerUserControl;
 using MahApps.Metro.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
-using TextBox = System.Windows.Forms.TextBox;
 
 namespace MahAppBase.ViewModel
 {
@@ -406,11 +404,15 @@ namespace MahAppBase.ViewModel
 
         public void ButtonChoosePathClickAction()
         {
-            using (var fbd = new FolderBrowserDialog())
+            var dialog = new OpenFolderDialog
             {
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                    SettingPath = fbd.SelectedPath;
+                Title = "選擇下載資料夾",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                SettingPath = dialog.FolderName;
             }
         }
 

@@ -7,14 +7,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CefSharp;
-using CefSharp.Wpf;
+using Microsoft.Web.WebView2.Core;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace MahAppBase.CustomerUserControl
@@ -38,7 +36,15 @@ namespace MahAppBase.CustomerUserControl
             InitializeComponent();
             MainViewModel = new ViewModel.LayoutDocument();
             gdMain.DataContext = MainViewModel;
-            
+            InitializeWebView();
+        }
+
+        private async void InitializeWebView()
+        {
+            await cwUrl.EnsureCoreWebView2Async(null);
+
+            // 訂閱導航完成事件
+            cwUrl.NavigationCompleted += CwUrl_NavigationCompleted;
         }
         
         private void UIElement_OnKeyDown(object sender, KeyEventArgs e)
@@ -50,10 +56,12 @@ namespace MahAppBase.CustomerUserControl
                     if (tbUrl.Text.Contains("http"))
                     {
                         MainViewModel.Url = tbUrl.Text;
-                        cwUrl.Load(MainViewModel.Url);
+                        cwUrl.Source = new Uri(MainViewModel.Url);
                     }
                     else
-                        cwUrl.Load("https://www.google.com/search?q=" + tbUrl.Text + "&sourceid=chrome=UTF-8");
+                    {
+                        cwUrl.Source = new Uri("https://www.google.com/search?q=" + tbUrl.Text + "&sourceid=chrome");
+                    }
                 }
             }
             catch (Exception ie)
@@ -72,17 +80,22 @@ namespace MahAppBase.CustomerUserControl
         {
             gdMain.DataContext = null;
             MainViewModel = null;
-            cwUrl.Dispose();
+            if (cwUrl != null)
+            {
+                cwUrl.NavigationCompleted -= CwUrl_NavigationCompleted;
+                cwUrl.Dispose();
+            }
             BindingOperations.ClearBinding(tbUrl, TextBlock.TextProperty);
             tbUrl.UndoLimit = 0;
         }
-        private void CwUrl_OnTitleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((sender as ChromiumWebBrowser) is null)
-                return;
-            MainViewModel.Url = (sender as ChromiumWebBrowser).Address;
-            layDoc.ToolTip = layDoc.Title = (sender as ChromiumWebBrowser).Title;
 
+        private void CwUrl_NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        {
+            if (cwUrl?.CoreWebView2 == null)
+                return;
+
+            MainViewModel.Url = cwUrl.Source.ToString();
+            layDoc.ToolTip = layDoc.Title = cwUrl.CoreWebView2.DocumentTitle;
         }
         #endregion
 

@@ -6,7 +6,7 @@
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:avalondock="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         mc:Ignorable="d" Title="" Height="600" Width="{Binding MainWindowWidth, Mode=TwoWay}" x:Name="mwMain" WindowState="{Binding State}">
     <i:Interaction.Triggers>
@@ -14,17 +14,6 @@
             <i:InvokeCommandAction Command="{Binding MainWindowClosed}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <controls:MetroWindow.RightWindowCommands >
-        <controls:WindowCommands>
-            <Button Command="{Binding ButtonDonateClick}">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconModern Width="24" Height="24" Kind="Add" />
-                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Donate Developer" />
-                </StackPanel>
-            </Button>
-            <Button Content="Settings" Command="{Binding ButtonSettingClick}"/>
-        </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
     <controls:MetroWindow.Resources>
         <Style TargetType="avalondock:DockingManager" x:Key="DetailRotation" >
             <Style.Triggers>
@@ -85,116 +74,6 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <StatusBar DataContext="{Binding CurrentStatus}" Grid.Row="1" Visibility="{Binding ResourceVisibility}">
-            <StatusBarItem>
-                <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
-                    <TextBlock Text="Cpu" HorizontalAlignment="Center" Margin="0,0,8,0" FontWeight="Bold"/>
-                    <Grid>
-                        <ProgressBar Minimum="0" Maximum="50" Value="{Binding Cpu}" Width="100" VerticalAlignment="Top" Height="15" FontWeight="Heavy"/>
-                        <TextBlock Text="{Binding Cpu}" TextAlignment="Center" FontWeight="Bold"/>
-                    </Grid>
-                    <TextBlock Text="Memory" Margin="30,0,8,0" FontWeight="Bold"/>
-                    <Grid>
-                        <ProgressBar Value="{Binding Memory}" Width="100" VerticalAlignment="Top" Height="15"/>
-                        <TextBlock Text="{Binding Memory}" TextAlignment="Center"   FontWeight="UltraBold"/>
-                    </Grid>
-                </StackPanel>
-            </StatusBarItem>
-            <StatusBarItem  HorizontalAlignment="Right" Margin="0,0,30,0">
-                <TextBlock Text="V 1.0.0.0"/>
-            </StatusBarItem>
-        </StatusBar>
+     
     </Grid>
-    <controls:MetroWindow.Flyouts>
-        <controls:FlyoutsControl>
-            <controls:Flyout x:Name="flySetting" IsOpen="{Binding FlyOutSettingIsOpen}" Header="Setting" Theme="Light" Position="Left" Width="{Binding FlyOutWidth}" CloseCommand="{Binding FlyOutSettingClose}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="10"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="50"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                        <TextBlock  Text="監控效能"  VerticalAlignment="Center"/>
-                        <controls:ToggleSwitchButton x:Name="tsGetinfo" Height="30" IsChecked="{Binding CurrentStatus.IsGetInfo}" ToolTip="即時監控程式目前使用資源情形CPU/Memory (重啟需要60秒時間)">
-                            <controls:ToggleSwitchButton.Style>
-                                <Style TargetType="controls:ToggleSwitchButton">
-                                    <Style.Triggers>
-                                        <EventTrigger RoutedEvent="Click">
-                                            <SoundPlayerAction Source="/Sound/Button.wav" />
-                                        </EventTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </controls:ToggleSwitchButton.Style>
-                        </controls:ToggleSwitchButton>
-                    </StackPanel>
-                    <TextBlock Text="更新頻率" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0,20,0,0"/>
-                    <Slider IsEnabled="{Binding ElementName=tsGetinfo, Path=IsChecked}" Value="{Binding CurrentStatus.UpdateFrequence}" x:Name="sdFrequency" Style="{DynamicResource  MahApps.Metro.Styles.Slider.Win10}" Grid.Row="2" Grid.Column="2" TickPlacement="BottomRight" IsSnapToTickEnabled="True" TickFrequency="1"  Minimum="1" Maximum="30"/>
-                    <TextBlock Text="{Binding ElementName=sdFrequency, Path= Value}" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" FontSize="15" Margin="20,0,0,0"/>
-                    <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,20,0,0">
-                        <TextBlock  Text="優化效能"  VerticalAlignment="Center"/>
-                        <controls:ToggleSwitchButton x:Name="tsBetterPerformance" Height="30" IsChecked="{Binding BetterPerformance}" ToolTip="縮小視窗時停止顯示元件減少效能浪費">
-                            <controls:ToggleSwitchButton.Style>
-                                <Style TargetType="controls:ToggleSwitchButton">
-                                    <Style.Triggers>
-                                        <EventTrigger RoutedEvent="Click">
-                                            <SoundPlayerAction Source="Sound/Button.wav" />
-                                        </EventTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </controls:ToggleSwitchButton.Style>
-                        </controls:ToggleSwitchButton>
-                    </StackPanel>
-                    <StackPanel  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center"  Margin="0,20,0,0">
-                        <TextBlock Text="儲存設定" VerticalAlignment="Center"/>
-                        <controls:ToggleSwitchButton x:Name="tsSaveSetting" Height="30" IsChecked="{Binding SaveSetting}" ToolTip="儲存設定(功能啟用、視窗配置)">
-                            <controls:ToggleSwitchButton.Style>
-                                <Style TargetType="controls:ToggleSwitchButton">
-                                    <Style.Triggers>
-                                        <EventTrigger RoutedEvent="Click">
-                                            <SoundPlayerAction Source="/Sound/Button.wav" />
-                                        </EventTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </controls:ToggleSwitchButton.Style>
-                        </controls:ToggleSwitchButton>
-                    </StackPanel>
-                    <TextBox Text="{Binding SettingPath}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" IsEnabled="{Binding SaveSetting}"/>
-                    <Button Grid.Row="5" Grid.Column="3" Command="{Binding ButtonChoosePathClick}"  IsEnabled="{Binding SaveSetting}">
-                        <iconPacks:PackIconModern Width="10" Height="10" Kind="Folder" />
-                    </Button>
-                    <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                        <TextBlock  Text="隱藏使用資源"  VerticalAlignment="Center"/>
-                        <controls:ToggleSwitchButton x:Name="tsHideResource" Height="30" IsChecked="{Binding CurrentStatus.HideResource}">
-                            <controls:ToggleSwitchButton.Style>
-                                <Style TargetType="controls:ToggleSwitchButton">
-                                    <Style.Triggers>
-                                        <EventTrigger RoutedEvent="Click">
-                                            <SoundPlayerAction Source="/Sound/Button.wav" />
-                                        </EventTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </controls:ToggleSwitchButton.Style>
-                        </controls:ToggleSwitchButton>
-                    </StackPanel>
-                </Grid>
-            </controls:Flyout>
-            <controls:Flyout x:Name="flyDonate" IsOpen="{Binding FlyOutDonateIsOpen}" Header="Donate" Theme="Light" Position="Left"  Width="{Binding FlyOutWidth}" CloseCommand="{Binding FlyOutDonateClose}">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Image Source="pack://application:,,,/Image/Donate.jpg" Width="250"/>
-                </StackPanel>
-            </controls:Flyout>
-        </controls:FlyoutsControl>
-    </controls:MetroWindow.Flyouts>
 </controls:MetroWindow>

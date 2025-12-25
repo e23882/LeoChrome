@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using MahAppBase.Command;
 using MahAppBase.CustomerUserControl;
-using VideoLibrary;
+using YoutubeExplode;
+using YoutubeExplode.Videos.Streams;
 using MessageBox = System.Windows.MessageBox;
 
 namespace MahAppBase.ViewModel
@@ -24,14 +24,11 @@ namespace MahAppBase.ViewModel
         private Visibility _ButtonDownLoadListVisibility = Visibility.Collapsed;
         public Visibility _ShowDownloadTool;
         private UcDownLoadSetting uc = null;
-        private Thread th;
         private bool _IsDownloading = false;
         private int _ProgressMax = 100;
         private string _ProgressPercent = "100 %";
         private string _DownloadPath = string.Empty;
         private long _CurrentProgress = 0;
-        private YouTube youTube = null;
-        private YouTubeVideo video = null;
         #endregion
 
         #region Property
@@ -168,8 +165,7 @@ namespace MahAppBase.ViewModel
             if(IsDownloading)
                 return;
             CurrentProgress = 0;
-            th = new Thread(DownloadAction);
-            th.Start();
+            _ = Task.Run(async () => await DownloadAction());
         }
 
         public void ButtonDownLoadListClickAction()
@@ -178,33 +174,48 @@ namespace MahAppBase.ViewModel
                 return;
             CurrentProgress = 0;
             MessageBox.Show("還沒做,一次只能下載一首");
-            th = new Thread(DownloadAction);
-            th.Start();
+            _ = Task.Run(async () => await DownloadAction());
         }
         
-        public void DownloadAction()
+        private async Task DownloadAction()
         {
             try
             {
                 IsDownloading = true;
-                youTube = YouTube.Default; // starting point for YouTube actions
-                video = youTube.GetVideo(Url); // gets a Video object with info about the video
-                using (var writer = new BinaryWriter(System.IO.File.Open(@"D:\"+video.FullName, FileMode.Create)))
+
+                var youtube = new YoutubeClient();
+
+                // 取得影片資訊
+                var video = await youtube.Videos.GetAsync(Url);
+
+                // 取得串流資訊
+                var streamManifest = await youtube.Videos.Streams.GetManifestAsync(video.Id);
+
+                // 選擇最高品質的混合串流（包含音訊和視訊）
+                var streamInfo = streamManifest.GetMuxedStreams().GetWithHighestVideoQuality();
+
+                if (streamInfo == null)
                 {
-                    var bytesLeft = video.GetBytes().Length;
-                    var array = video.GetBytes();
-                    ProgressMax = array.Length;
-                    var bytesWritten = 0;
-                    while (bytesLeft > 0)
-                    {
-                        int chunk = Math.Min(64, bytesLeft);
-                        writer.Write(array, bytesWritten, chunk);
-                        bytesWritten += chunk;
-                        bytesLeft -= chunk;
-                        CurrentProgress = bytesWritten;
-                    }
+                    // 如果沒有混合串流，選擇最高品質的純視訊串流
+                    streamInfo = streamManifest.GetVideoOnlyStreams().GetWithHighestVideoQuality();
                 }
 
+                // 建立安全的檔案名稱
+                var fileName = $"{video.Title}.{streamInfo.Container.Name}";
+                fileName = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
+
+                var filePath = Path.Combine(@"D:\", fileName);
+
+                // 下載並追蹤進度
+                var progress = new Progress<double>(p =>
+                {
+                    CurrentProgress = (long)(p * 100);
+                    ProgressMax = 100;
+                });
+
+                await youtube.Videos.Streams.DownloadAsync(streamInfo, filePath, progress);
+
+                MessageBox.Show($"下載完成：{fileName}");
             }
             catch (Exception ie)
             {
@@ -213,12 +224,7 @@ namespace MahAppBase.ViewModel
             finally
             {
                 IsDownloading = false;
-                youTube = null;
-                video = null;
-
-
             }
-
         }
 
         public void ButtonSettingOnClickAction()

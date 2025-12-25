@@ -6,9 +6,7 @@
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:avalondock="http://schemas.xceed.com/wpf/xaml/avalondock"
              xmlns:cv="clr-namespace:MahAppBase.Converter"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
-             xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" x:Name="layDoc" Title="新增分頁" Closed="UcPageContent_OnClosed">
     <Grid x:Name="gdMain">
@@ -26,7 +24,7 @@
                 </Style>
             </TextBox.Resources>
         </TextBox>
-        <cefSharp:ChromiumWebBrowser x:Name="cwUrl" Grid.Row="1" TitleChanged="CwUrl_OnTitleChanged" Address="http://google.com/"/>
+        <wv2:WebView2 x:Name="cwUrl" Grid.Row="1" Source="http://google.com/" />
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding ShowDownloadTool}">
                 <Grid Visibility="{Binding ButtonDownLoadVisibility}">
                 <ProgressBar Minimum="0" Maximum="{Binding ProgressMax}" Value="{Binding CurrentProgress}" Orientation="Horizontal" Width="150" Height="20"  Margin="0,0,10,0">
