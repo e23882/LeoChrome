@@ -204,7 +204,11 @@ namespace MahAppBase.ViewModel
                 var fileName = $"{video.Title}.{streamInfo.Container.Name}";
                 fileName = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
 
-                var filePath = Path.Combine(@"D:\", fileName);
+                // 使用設定的下載路徑或 MyDocuments
+                var downloadPath = string.IsNullOrWhiteSpace(DownloadPath)
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                    : DownloadPath;
+                var filePath = Path.Combine(downloadPath, fileName);
 
                 // 下載並追蹤進度
                 var progress = new Progress<double>(p =>

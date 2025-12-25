@@ -53,7 +53,7 @@
           "dependencies": {
             "ControlzEx": {
               "target": "Package",
-              "version": "[5.0.3, )"
+              "version": "[5.0.2, )"
             },
             "Extended.Wpf.Toolkit": {
               "target": "Package",
@@ -61,7 +61,7 @@
             },
             "MahApps.Metro": {
               "target": "Package",
-              "version": "[2.4.10, )"
+              "version": "[2.4.11, )"
             },
             "MahApps.Metro.IconPacks.FontAwesome": {
               "target": "Package",

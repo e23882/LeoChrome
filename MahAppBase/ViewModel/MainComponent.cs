@@ -356,37 +356,20 @@ namespace MahAppBase.ViewModel
         
         private void ButtonNewTabClickAction(object obj)
         {
-            //初始化網頁UserControl instance、委派事件回主視窗
-            var dt = new UcPageContent();
-            dt.Tag = DateTime.Now.ToShortTimeString();
+            // 創建 ViewModel 並加入追蹤列表
             LayoutDocument SubWindowViewModel = new LayoutDocument();
             SubViewModelList.Add(SubWindowViewModel);
-            dt.gdMain.DataContext = SubWindowViewModel;
-            dt.KeyDownEventHandler += Dt_KeyDownEventHandler;
-            dt.LoadCompleteEventHandler += Dt_LoadCompleteEventHandler;
-            //產生AvalonDock頁面實例、委派事件回主視窗
-            MainGroupInstance.Children.Add(dt);
-            dt = null;
-        }
 
-        /// <summary>
-        /// 接受動態產生元件委派事件，WebBorwser載入完成時取得網頁標題
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Dt_LoadCompleteEventHandler(object sender, NavigationEventArgs e)
-        {
-            var dt = (sender as System.Windows.Controls.WebBrowser);
-            if (dt is null)
-            {
-                this.ErrorMessage = $"{DateTime.Now.ToShortTimeString()} : 取得標題失敗";
-                return;
-            }
-            else
-            {
-                dynamic doc = dt.Document;
-                var title = doc.Title;
-            }
+            // 將 SettingPath 傳遞給新頁面的 ViewModel
+            SubWindowViewModel.DownloadPath = SettingPath;
+
+            // 創建 UserControl 實例，注入 ViewModel
+            var dt = new UcPageContent(SubWindowViewModel);
+            dt.Tag = DateTime.Now.ToShortTimeString();
+            dt.KeyDownEventHandler += Dt_KeyDownEventHandler;
+
+            // 產生 AvalonDock 頁面實例
+            MainGroupInstance.Children.Add(dt);
         }
 
         /// <summary>

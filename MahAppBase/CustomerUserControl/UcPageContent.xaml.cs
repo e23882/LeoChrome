@@ -26,15 +26,17 @@ namespace MahAppBase.CustomerUserControl
         private ViewModel.LayoutDocument MainViewModel;
         public event UserControlEventHandler KeyDownEventHandler;
         public delegate void UserControlEventHandler(object sender, KeyEventArgs e);
-        public event WebBrowserLoadEventHandler LoadCompleteEventHandler;
-        public delegate void WebBrowserLoadEventHandler(object sender, NavigationEventArgs e);
         #endregion
 
         #region Memberfunction
-        public UcPageContent()
+        /// <summary>
+        /// 建構子 - 接受外部注入 ViewModel
+        /// </summary>
+        /// <param name="viewModel">外部傳入的 LayoutDocument ViewModel</param>
+        public UcPageContent(ViewModel.LayoutDocument viewModel)
         {
             InitializeComponent();
-            MainViewModel = new ViewModel.LayoutDocument();
+            MainViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             gdMain.DataContext = MainViewModel;
             InitializeWebView();
         }

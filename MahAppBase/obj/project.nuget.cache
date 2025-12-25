@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "hH5mtr1bIN8=",
+  "dgSpecHash": "WFJpf83Cjos=",
   "success": true,
   "projectFilePath": "C:\\Users\\Leo\\Desktop\\新增資料夾\\LeoChrome\\MahAppBase\\MahAppBase.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Leo\\.nuget\\packages\\anglesharp\\1.1.2\\anglesharp.1.1.2.nupkg.sha512",
-    "C:\\Users\\Leo\\.nuget\\packages\\controlzex\\6.0.0\\controlzex.6.0.0.nupkg.sha512",
+    "C:\\Users\\Leo\\.nuget\\packages\\controlzex\\5.0.2\\controlzex.5.0.2.nupkg.sha512",
     "C:\\Users\\Leo\\.nuget\\packages\\extended.wpf.toolkit\\4.6.0\\extended.wpf.toolkit.4.6.0.nupkg.sha512",
-    "C:\\Users\\Leo\\.nuget\\packages\\mahapps.metro\\2.4.10\\mahapps.metro.2.4.10.nupkg.sha512",
+    "C:\\Users\\Leo\\.nuget\\packages\\mahapps.metro\\2.4.11\\mahapps.metro.2.4.11.nupkg.sha512",
     "C:\\Users\\Leo\\.nuget\\packages\\mahapps.metro.iconpacks.core\\5.0.0\\mahapps.metro.iconpacks.core.5.0.0.nupkg.sha512",
     "C:\\Users\\Leo\\.nuget\\packages\\mahapps.metro.iconpacks.fontawesome\\5.0.0\\mahapps.metro.iconpacks.fontawesome.5.0.0.nupkg.sha512",
     "C:\\Users\\Leo\\.nuget\\packages\\mahapps.metro.iconpacks.material\\5.0.0\\mahapps.metro.iconpacks.material.5.0.0.nupkg.sha512",
@@ -20,30 +20,5 @@
     "C:\\Users\\Leo\\.nuget\\packages\\system.text.json\\8.0.3\\system.text.json.8.0.3.nupkg.sha512",
     "C:\\Users\\Leo\\.nuget\\packages\\youtubeexplode\\6.3.16\\youtubeexplode.6.3.16.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "message": "MahAppBase 依賴 ControlzEx (>= 5.0.3)，但找不到 ControlzEx 5.0.3。已改為解析 ControlzEx 6.0.0。",
-      "projectPath": "C:\\Users\\Leo\\Desktop\\新增資料夾\\LeoChrome\\MahAppBase\\MahAppBase.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Leo\\Desktop\\新增資料夾\\LeoChrome\\MahAppBase\\MahAppBase.csproj",
-      "libraryId": "ControlzEx",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1608",
-      "level": "Warning",
-      "message": "在相依性條件約束之外偵測到套件版本: MahApps.Metro 2.4.10 需要 ControlzEx (>= 4.4.0 && < 6.0.0)，但解析出版本 ControlzEx 6.0.0。",
-      "projectPath": "C:\\Users\\Leo\\Desktop\\新增資料夾\\LeoChrome\\MahAppBase\\MahAppBase.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Leo\\Desktop\\新增資料夾\\LeoChrome\\MahAppBase\\MahAppBase.csproj",
-      "libraryId": "ControlzEx",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  "logs": []
 }
