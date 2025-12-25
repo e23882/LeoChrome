@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MahAppBase")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3126d6107ec083d9d7445f449120b57565a2595a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+969f4f7c03bf809c141e792d157a1d7099a1cae8")]
 [assembly: System.Reflection.AssemblyProductAttribute("MahAppBase")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MahAppBase")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
